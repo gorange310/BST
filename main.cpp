@@ -1,7 +1,8 @@
 #include <iostream>
+#include <vector>
 
 using namespace std;
-//
+
 class Node
 {
 
@@ -23,7 +24,7 @@ public:
 
 //    destructor
     ~Node(){
-        cout << "destructor called @" << this  << " ..... deleting " << this->m_nVal << endl;
+        cout << "destructor called ..... deleting " << this->m_nVal << endl;
         if(m_pLeftNode)
         {
             delete m_pLeftNode;
@@ -37,7 +38,6 @@ public:
     }
 
 
-
     //functions
     int get_m_nVal() { return m_nVal; }
     Node* get_m_pLeftNode() { return m_pLeftNode; }
@@ -46,10 +46,7 @@ public:
     void set_m_pLeftNode(Node *pSmall) { this->m_pLeftNode = pSmall; }
     void set_m_pRightNode(Node *pLarge) { this->m_pRightNode = pLarge; }
 
-    void Create(int nVal);
-    bool Search(int nVal);
-
-}*current, *rootNode=nullptr;
+} *rootNode=nullptr;
 
 int nCount=0;
 
@@ -72,116 +69,127 @@ int InputVal()
 }
 
 
-
 // 1
 void Create(int nVal, Node* pNode)
 {
 
-     pNode = rootNode;
-    if(!rootNode)
+//    pNode = rootNode;
+    if(!pNode)
     {
         cout << "first Node created." << endl;
         Node* newNode = new Node(nVal);
         rootNode = newNode;
         nCount++;
+        return;
     }
 
     // if nVal less than current node value
-
-    if(nVal < pNode->get_m_nVal() )
-    {
-        Node* newNode = new Node(nVal);
-        if( !pNode->get_m_pLeftNode())
-            Create(nVal, pNode->get_m_pLeftNode());
-        else
-            pNode->set_m_pLeftNode(newNode);
-        cout << "small vlaue Node created." << endl;
-    }
-
-    // if nVal larger than current value
-    else if( nVal > pNode->get_m_nVal() )
-    {
-        Node* newNode = new Node(nVal);
-        if( !pNode->get_m_pRightNode() )
-            Create(nVal, pNode->get_m_pRightNode());
-        else
-            pNode->set_m_pRightNode(newNode);
-        cout << "large value Node created." << endl;
-    }
     else
-        cout << nVal << " has been added." << endl;
+    {
+        cout << "pNode value: " << pNode->get_m_nVal() << endl;
+        if(nVal < pNode->get_m_nVal() )
+        {
+            if( !pNode->get_m_pLeftNode())
+            {
+                Node* newNode = new Node(nVal);
+                cout << "Small vlaue Node created." << endl;
+                pNode->set_m_pLeftNode(newNode);
+                nCount++;
+                return;
+            }
+            else
+            {
+                cout << "Small Node exsited." << endl;
+                Create(nVal, pNode->get_m_pLeftNode());
+            }
+        }
+
+        // if nVal larger than current value
+        else if( nVal > pNode->get_m_nVal() )
+        {
+            if( !pNode->get_m_pRightNode() )
+            {
+                Node* newNode = new Node(nVal);
+                cout << "Large value Node created." << endl;
+                pNode->set_m_pRightNode(newNode);
+                nCount++;
+                return;
+            }
+            else
+            {
+                cout << "Large Node exsited." << endl;
+                Create(nVal, pNode->get_m_pRightNode());
+            }
+        }
+        else
+            cout << nVal << " has been added." << endl;
+    }
+
 }
 
 // 2
-void PrintSToL(Node* ptr)
+void PrintSToL(Node* pNode)
 {
-    if(rootNode)
+    if(!rootNode)
     {
         cout << "it's empty." << endl;
         return;
     }
-    if(!rootNode)
+    if(pNode)
     {
 
-        if(ptr->get_m_pLeftNode())
+        if(pNode->get_m_pLeftNode())
         {
-            PrintSToL(ptr->get_m_pLeftNode());
+            PrintSToL(pNode->get_m_pLeftNode());
         }
-        cout << ptr->get_m_nVal() << " ";
 
-//        cout << rootNode->get_m_nVal() << " ";
+        cout << pNode->get_m_nVal() << " ";
 
-        if(ptr->get_m_pLeftNode())
+        if(pNode->get_m_pLeftNode())
         {
-            PrintSToL(ptr->get_m_pRightNode());
+            PrintSToL(pNode->get_m_pRightNode());
         }
     }
-    cout << endl;
-
 }
 
 // 3
-void PrintLToS(Node* ptr)
+void PrintLToS(Node* pNode)
 {
-    if(rootNode)
+    if(!rootNode)
     {
         cout << "it's empty." << endl;
         return;
     }
-    if(!rootNode)
+    if(pNode)
     {
 
-        if(ptr->get_m_pRightNode())
+        if(pNode->get_m_pRightNode())
         {
-            PrintSToL(ptr->get_m_pRightNode());
+            PrintSToL(pNode->get_m_pRightNode());
         }
-        cout << ptr->get_m_nVal() << " ";
+        cout << pNode->get_m_nVal() << " ";
 
-//        cout << rootNode->get_m_nVal() << " ";
-
-        if(ptr->get_m_pLeftNode())
+        if(pNode->get_m_pLeftNode())
         {
-            PrintSToL(ptr->get_m_pLeftNode());
+            PrintSToL(pNode->get_m_pLeftNode());
         }
     }
-    cout << endl;
-
 }
 
 
 // 4
-void PrintFromRoot(Node* ptr)
+void PrintFromRoot(Node* pNode)
 {
-    if(rootNode)
+    if(!rootNode)
     {
         cout << "it's empty." << endl;
         return;
     }
-    if(!rootNode)
+    if(pNode)
     {
-        cout << ptr->get_m_nVal() << " ";
-        PrintFromRoot(ptr->get_m_pLeftNode());
-        PrintFromRoot(ptr->get_m_pRightNode());
+        cout << pNode->get_m_nVal() << " ";
+        PrintFromRoot(pNode->get_m_pLeftNode());
+        PrintFromRoot(pNode->get_m_pRightNode());
     }
 }
 
@@ -189,9 +197,15 @@ void PrintFromRoot(Node* ptr)
 void Search(int nVal, Node* pNode)
 {
     if(pNode->get_m_nVal() == nVal)
+    {
         cout << "true" << endl;
+        return;
+    }
     if(pNode->get_m_nVal() != nVal)
+    {
         cout << "false" << endl;
+        return;
+    }
     if(pNode->get_m_nVal() < nVal)
         Search(nVal, pNode->get_m_pLeftNode());
     if(pNode->get_m_nVal() > nVal)
@@ -207,8 +221,8 @@ void Menu()
     do
     {
         cout << endl << endl;
-        cout << "1.create  2.由小到大遍巡並列出值 3.由大到小遍巡並列出值" << endl;
-        cout << "4. 由最根處從上而下、從左至右列出值  5.search 6. 總節點數 7. Exit" << endl;
+        cout << "1.Create  2.小到大遍巡 3.大到小遍巡 4. 由最根處從上而下、從左至右  " << endl;
+        cout << "5.Search 6. 總節點數 7. Exit" << endl;
         cout << "------------------------------------------------------------------" << endl;
         cout << "Choice ";
         int nChoice = InputVal();
@@ -239,10 +253,9 @@ void Menu()
             Search(nVal, rootNode);
         }
             break;
-
         case 6:
             cout << "There are " <<  nCount << " node now." << endl;
-
+            break;
         case 7:
             delete rootNode;
             return;
@@ -255,7 +268,7 @@ void Menu()
 
 int main()
 {
-    Node(10);
+
     Menu();
     return 0;
 }
