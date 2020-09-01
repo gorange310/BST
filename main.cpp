@@ -1,5 +1,4 @@
 #include <iostream>
-#include <vector>
 
 using namespace std;
 
@@ -16,14 +15,14 @@ private:
 
 public:
 
-    //constructor
+    // constructor
     Node(int nVal):m_nVal(nVal),m_pLeftNode(nullptr),m_pRightNode(nullptr)
     {
-//        cout << "constructor called" << endl;
+    //        cout << "constructor called" << endl;
         cout << "Node constructor called... set value: " << nVal << endl;
     };
 
-//    destructor
+    // destructor
     ~Node(){
         cout << "destructor called ..... deleting " << this->m_nVal << endl;
         if(m_pLeftNode)
@@ -49,10 +48,8 @@ public:
 
 } *rootNode=nullptr;
 
+// 6. 總節點數
 int nCount=0;
-
-// 1.create  2.由小到大遍巡並列出值 3.由大到小遍巡並列出值
-// 4. 由最根處從上而下、從左至右列出值  5.search 6. 總節點數
 
 int InputVal()
 {
@@ -69,8 +66,7 @@ int InputVal()
     return nInput;
 }
 
-
-// 1
+// 1. create Node
 void Create(int nVal, Node* pNode)
 {
 
@@ -128,7 +124,7 @@ void Create(int nVal, Node* pNode)
 
 }
 
-// 2
+// 2.由小到大遍巡並列出值
 void PrintSToL(Node* pNode)
 {
     if(!rootNode)
@@ -148,7 +144,7 @@ void PrintSToL(Node* pNode)
     }
 }
 
-// 3
+// 3.由大到小遍巡並列出值
 void PrintLToS(Node* pNode)
 {
     if(!rootNode)
@@ -168,8 +164,7 @@ void PrintLToS(Node* pNode)
     }
 }
 
-
-// 4
+// 4. 由最根處從上而下、從左至右列出值
 void PrintFromRoot(Node* pNode)
 {
     if(!rootNode)
@@ -185,7 +180,7 @@ void PrintFromRoot(Node* pNode)
     }
 }
 
-// 5
+// 5.search
 void Search(int nVal, Node* pNode)
 {
 
@@ -213,9 +208,6 @@ void Search(int nVal, Node* pNode)
         }
     }
 }
-
-// 7
-
 
 void Menu()
 {
