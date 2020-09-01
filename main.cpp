@@ -19,7 +19,8 @@ public:
     //constructor
     Node(int nVal):m_nVal(nVal),m_pLeftNode(nullptr),m_pRightNode(nullptr)
     {
-        cout << "constructor called" << endl;
+//        cout << "constructor called" << endl;
+        cout << "Node constructor called... set value: " << nVal << endl;
     };
 
 //    destructor
@@ -76,7 +77,7 @@ void Create(int nVal, Node* pNode)
 //    pNode = rootNode;
     if(!pNode)
     {
-        cout << "first Node created." << endl;
+        cout << "First Node created." << endl;
         Node* newNode = new Node(nVal);
         rootNode = newNode;
         nCount++;
@@ -86,20 +87,20 @@ void Create(int nVal, Node* pNode)
     // if nVal less than current node value
     else
     {
-        cout << "pNode value: " << pNode->get_m_nVal() << endl;
+//        cout << "pNode value: " << pNode->get_m_nVal() << endl;
         if(nVal < pNode->get_m_nVal() )
         {
             if( !pNode->get_m_pLeftNode())
             {
                 Node* newNode = new Node(nVal);
-                cout << "Small vlaue Node created." << endl;
+//                cout << "Small vlaue Node created." << endl;
                 pNode->set_m_pLeftNode(newNode);
                 nCount++;
                 return;
             }
             else
             {
-                cout << "Small Node exsited." << endl;
+//                cout << "going <<<< -------- LEFT." << endl;
                 Create(nVal, pNode->get_m_pLeftNode());
             }
         }
@@ -110,14 +111,14 @@ void Create(int nVal, Node* pNode)
             if( !pNode->get_m_pRightNode() )
             {
                 Node* newNode = new Node(nVal);
-                cout << "Large value Node created." << endl;
+//                cout << "Large value Node created." << endl;
                 pNode->set_m_pRightNode(newNode);
                 nCount++;
                 return;
             }
             else
             {
-                cout << "Large Node exsited." << endl;
+//                cout << "going -------- >>>> RIGHT." << endl;
                 Create(nVal, pNode->get_m_pRightNode());
             }
         }
@@ -137,18 +138,13 @@ void PrintSToL(Node* pNode)
     }
     if(pNode)
     {
-
         if(pNode->get_m_pLeftNode())
-        {
             PrintSToL(pNode->get_m_pLeftNode());
-        }
 
         cout << pNode->get_m_nVal() << " ";
 
-        if(pNode->get_m_pLeftNode())
-        {
+        if(pNode->get_m_pRightNode())
             PrintSToL(pNode->get_m_pRightNode());
-        }
     }
 }
 
@@ -162,17 +158,13 @@ void PrintLToS(Node* pNode)
     }
     if(pNode)
     {
-
         if(pNode->get_m_pRightNode())
-        {
-            PrintSToL(pNode->get_m_pRightNode());
-        }
+            PrintLToS(pNode->get_m_pRightNode());
+
         cout << pNode->get_m_nVal() << " ";
 
         if(pNode->get_m_pLeftNode())
-        {
-            PrintSToL(pNode->get_m_pLeftNode());
-        }
+            PrintLToS(pNode->get_m_pLeftNode());
     }
 }
 
@@ -196,21 +188,30 @@ void PrintFromRoot(Node* pNode)
 // 5
 void Search(int nVal, Node* pNode)
 {
+
     if(pNode->get_m_nVal() == nVal)
     {
         cout << "true" << endl;
         return;
     }
-    if(pNode->get_m_nVal() != nVal)
+    else
     {
-        cout << "false" << endl;
-        return;
+        if(nVal < pNode->get_m_nVal() && pNode->get_m_pLeftNode())
+        {
+//            cout << "going <<<< -------- LEFT." << endl;
+            Search(nVal, pNode->get_m_pLeftNode());
+        }
+        else if(nVal > pNode->get_m_nVal() && pNode->get_m_pRightNode())
+        {
+//            cout << "going -------- >>>> RIGHT." << endl;
+            Search(nVal, pNode->get_m_pRightNode());
+        }
+        else
+        {
+            cout << "false" << endl;
+            return;
+        }
     }
-    if(pNode->get_m_nVal() < nVal)
-        Search(nVal, pNode->get_m_pLeftNode());
-    if(pNode->get_m_nVal() > nVal)
-        Search(nVal, pNode->get_m_pRightNode());
-
 }
 
 // 7
@@ -231,11 +232,11 @@ void Menu()
         {
         case 1:
         {
-            cout << "create :";
+            cout << "Create Node value";
             int nVal = InputVal();
             Create(nVal, rootNode);
-        }
             break;
+        }
         case 2:
             PrintSToL(rootNode);
             break;
@@ -247,12 +248,12 @@ void Menu()
             break;
         case 5:
         {
-            cout << "Search value: " <<endl;
+            cout << "Search Node value ";
             int nVal = InputVal();
             cout << "result is: ";
             Search(nVal, rootNode);
-        }
             break;
+        }
         case 6:
             cout << "There are " <<  nCount << " node now." << endl;
             break;
@@ -270,5 +271,6 @@ int main()
 {
 
     Menu();
+    cout << "Exit." << endl;
     return 0;
 }
