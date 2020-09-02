@@ -17,6 +17,11 @@ private:
 
 public:
 
+    Node(const Node&, int);
+//    Node& operater=(const Node&);
+    ~Node();
+
+
     // constructor
     Node(int nVal):m_nVal(nVal),m_pLeftNode(nullptr),m_pRightNode(nullptr)
     {
@@ -25,25 +30,6 @@ public:
         cout << "constructor@ " << this << endl;
         m_nCount++;
     };
-
-    // destructor
-    ~Node(){
-        cout << "destructor called ..... deleting " << this->m_nVal << endl;
-        if(m_pLeftNode)
-        {
-            m_nCount--;
-            cout << "nCount" << m_nCount;
-            delete m_pLeftNode;
-            m_pLeftNode=nullptr;
-        }
-        if(m_pRightNode)
-        {
-            m_nCount--;
-            cout << "nCount" << m_nCount;
-            delete m_pRightNode;
-            m_pRightNode=nullptr;
-        }
-    }
 
 
     //functions
@@ -59,6 +45,48 @@ public:
 
 // 6. 總節點數
 int Node::m_nCount=0;
+
+Node::Node(const Node& SourceNode, int nVal):m_nVal(nVal),m_pLeftNode(nullptr),m_pRightNode(nullptr)
+{
+    if(SourceNode.m_pLeftNode)
+    {
+        m_pLeftNode = new Node(*SourceNode.m_pLeftNode);
+    }
+    if(SourceNode.m_pRightNode)
+    {
+        m_pRightNode = new Node(*SourceNode.m_pRightNode);
+    }
+}
+
+//Node& Node::operater=(const Node& other)
+//{
+//    m_nVal = other.m_nVal;
+
+//    Node* left_orig = m_pLeftNode;
+//    m_pLeftNode = new Node(*other.m_pLeftNode);
+//    delete left_orig;
+
+//    Node* right_orig = m_pRightNode;
+//    m_pRightNode = new Node(*other.m_pRightNode);
+//    delete right_orig;
+
+//    return *this;
+//}
+
+Node::~Node()
+{
+    cout << "destructor called ..... deleting " << this->m_nVal << endl;
+    if(m_pLeftNode)
+    {
+        delete m_pLeftNode;
+        m_pLeftNode=nullptr;
+    }
+    if(m_pRightNode)
+    {
+        delete m_pRightNode;
+        m_pRightNode=nullptr;
+    }
+}
 
 int InputVal()
 {
