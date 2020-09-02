@@ -13,13 +13,17 @@ private:
 
     Node* m_pRightNode;
 
+    static int m_nCount;
+
 public:
 
     // constructor
     Node(int nVal):m_nVal(nVal),m_pLeftNode(nullptr),m_pRightNode(nullptr)
     {
     //        cout << "constructor called" << endl;
-        cout << "Node constructor called... set value: " << nVal << endl;
+//        cout << "Node constructor called... set value: " << nVal << endl;
+        cout << "constructor@ " << this << endl;
+        m_nCount++;
     };
 
     // destructor
@@ -27,11 +31,15 @@ public:
         cout << "destructor called ..... deleting " << this->m_nVal << endl;
         if(m_pLeftNode)
         {
+            m_nCount--;
+            cout << "nCount" << m_nCount;
             delete m_pLeftNode;
             m_pLeftNode=nullptr;
         }
         if(m_pRightNode)
         {
+            m_nCount--;
+            cout << "nCount" << m_nCount;
             delete m_pRightNode;
             m_pRightNode=nullptr;
         }
@@ -42,6 +50,7 @@ public:
     int get_m_nVal() { return m_nVal; }
     Node* get_m_pLeftNode() { return m_pLeftNode; }
     Node* get_m_pRightNode() { return m_pRightNode; }
+    int get_m_nCount() { return m_nCount; }
 
     void set_m_pLeftNode(Node *pSmall) { this->m_pLeftNode = pSmall; }
     void set_m_pRightNode(Node *pLarge) { this->m_pRightNode = pLarge; }
@@ -49,7 +58,7 @@ public:
 } *rootNode=nullptr;
 
 // 6. 總節點數
-int nCount=0;
+int Node::m_nCount=0;
 
 int InputVal()
 {
@@ -69,14 +78,11 @@ int InputVal()
 // 1. create Node
 void Create(int nVal, Node* pNode)
 {
-
-//    pNode = rootNode;
     if(!pNode)
     {
         cout << "First Node created." << endl;
         Node* newNode = new Node(nVal);
         rootNode = newNode;
-        nCount++;
         return;
     }
 
@@ -91,7 +97,6 @@ void Create(int nVal, Node* pNode)
                 Node* newNode = new Node(nVal);
 //                cout << "Small vlaue Node created." << endl;
                 pNode->set_m_pLeftNode(newNode);
-                nCount++;
                 return;
             }
             else
@@ -109,7 +114,6 @@ void Create(int nVal, Node* pNode)
                 Node* newNode = new Node(nVal);
 //                cout << "Large value Node created." << endl;
                 pNode->set_m_pRightNode(newNode);
-                nCount++;
                 return;
             }
             else
@@ -247,7 +251,7 @@ void Menu()
             break;
         }
         case 6:
-            cout << "There are " <<  nCount << " node now." << endl;
+            cout << "There are " << rootNode->get_m_nCount() << " node now." << endl;
             break;
         case 7:
             delete rootNode;
