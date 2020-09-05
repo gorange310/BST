@@ -23,65 +23,20 @@ public:
 
 
     Node(int);
-    Node(const Node&);
+    Node(const Node&, int);
     ~Node();
-    Node *m_pRoot = nullptr;
 
 
     //functions
-    int get_m_nVal() { return m_nVal; }
-    Node* get_m_pLeftNode() { return m_pLeftNode; }
-    Node* get_m_pRightNode() { return m_pRightNode; }
-
     static int print_m_nCount() { return m_nCount; }
+    void printSToL(const Node&);
+    void printLToS(const Node&);
+    void printFromRoot(const Node&);
 
-    void set_m_pLeftNode(Node *pSmall) { this->m_pLeftNode = pSmall; }
-    void set_m_pRightNode(Node *pLarge) { this->m_pRightNode = pLarge; }
-
-} *rootNode=nullptr;
+} *m_pRoot = nullptr;
 
 // 6. 總節點數
 int Node::m_nCount=0;
-
-
-// constructor
-Node::Node(int nVal):m_nVal(nVal),m_pLeftNode(nullptr),m_pRightNode(nullptr)
-{
-    cout << "Node constructor called... set value: " << nVal << endl;
-    m_nCount++;
-};
-
-// copy constructor
-Node::Node(const Node& source)
-{
-    cout << "COPY construtor called" << endl;
-    if(!source.m_pRoot)
-    {
-       m_pRoot = nullptr;
-    }
-    else
-    {
-        this->m_pRoot = new Node(source.m_nVal);
-        this->m_pLeftNode = source.m_pLeftNode;
-        this->m_pRightNode = source.m_pRightNode;
-    }
-    m_nCount++;
-};
-
-Node::~Node()
-{
-    cout << "destructor called ..... deleting " << this->m_nVal << endl;
-    if(m_pLeftNode)
-    {
-        delete m_pLeftNode;
-        m_pLeftNode=nullptr;
-    }
-    if(m_pRightNode)
-    {
-        delete m_pRightNode;
-        m_pRightNode=nullptr;
-    }
-}
 
 int InputVal()
 {
@@ -98,16 +53,134 @@ int InputVal()
     return nInput;
 }
 
-// 1. create Node
+// constructor
+Node::Node(int nVal):m_nVal(nVal),m_pLeftNode(nullptr),m_pRightNode(nullptr)
+{
+    cout << "Node constructor called... set value: " << nVal << endl;
+    m_nCount++;
+};
+
+// copy constructor
+Node::Node(const Node& source, int nVal)
+{
+    cout << "COPY construtor called" << endl;
+
+    if(source == nullptr)
+    {
+        m_pRoot = new Node(nVal);
+        cout << "first node created" << endl;
+    }
+    else
+    {
+        cout << "source value: " << source.m_nVal;
+        if(nVal < source.m_nVal)
+        {
+            if(!source.m_pLeftNode)
+            {
+                m_pLeftNode = new Node(nVal);
+                cout << "small value node created" << endl;
+            }
+            else
+            {
+                cout << "going <<<< -------- LEFT." << endl;
+                Node(*source.m_pLeftNode, nVal);
+            }
+        }
+        if(nVal > source.m_nVal)
+        {
+            if(!source.m_pRightNode)
+            {
+                m_pRightNode = new Node(nVal);
+                cout << "large value node created" << endl;
+            }
+            else
+            {
+                cout << "going <<<< -------- RIGHT." << endl;
+                Node(*source.m_pRightNode, nVal);
+            }
+        }
+        else
+            cout << nVal << " has been added." << endl;
+    }
+};
+
+
+
+
+Node::~Node()
+{
+    cout << "destructor called ..... deleting " << m_nVal << endl;
+    if(m_pLeftNode)
+    {
+        delete m_pLeftNode;
+        m_pLeftNode=nullptr;
+    }
+    if(m_pRightNode)
+    {
+        delete m_pRightNode;
+        m_pRightNode=nullptr;
+    }
+}
+
 
 
 // 2.由小到大遍巡並列出值
+//void Node::printSToL()
+//{
+//    if(!rootNode)
+//    {
+//        cout << "it's empty." << endl;
+//        return;
+//    }
+//    if(pNode)
+//    {
+//        if(pNode->get_m_pLeftNode())
+//            PrintSToL(pNode->get_m_pLeftNode());
+
+//        cout << pNode->get_m_nVal() << " ";
+
+//        if(pNode->get_m_pRightNode())
+//            PrintSToL(pNode->get_m_pRightNode());
+//    }
+//}
 
 
 // 3.由大到小遍巡並列出值
+//void Node::printLToS()
+//{
+//    if(!rootNode)
+//    {
+//        cout << "it's empty." << endl;
+//        return;
+//    }
+//    if(pNode)
+//    {
+//        if(pNode->get_m_pRightNode())
+//            PrintLToS(pNode->get_m_pRightNode());
+
+//        cout << pNode->get_m_nVal() << " ";
+
+//        if(pNode->get_m_pLeftNode())
+//            PrintLToS(pNode->get_m_pLeftNode());
+//    }
+//}
 
 
 // 4. 由最根處從上而下、從左至右列出值
+void Node::printFromRoot(const Node& source)
+{
+    if(!source.m_pRoot)
+    {
+        cout << "it's empty." << endl;
+        return;
+    }
+    else
+    {
+        cout << source.m_nVal << " ";
+        printFromRoot(*source.m_pRightNode);
+        printFromRoot(*source.m_pRightNode);
+    }
+}
 
 
 // 5.search
@@ -128,12 +201,19 @@ void Menu()
         switch(nChoice)
         {
         case 1:
+        {
+            int nVal=0;
+            cout << "create Node value: ";
+            cin >> nVal;
+            Node::Node(*m_pRoot,nVal);
+        }
             break;
         case 2:
             break;
         case 3:
             break;
         case 4:
+            Node::printFromRoot(*m_pRoot);
             break;
         case 5:
             break;
