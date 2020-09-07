@@ -19,8 +19,8 @@ void create(Node* current, int nVal)
 {
     if(!rootNode)
     {
-        Node* newNode= new Node(nVal);
-        rootNode = newNode;
+        Node newNode(nVal);
+        newNode = Node(*rootNode);
         return;
     }
     else
@@ -29,9 +29,9 @@ void create(Node* current, int nVal)
         {
             if(!current->get_m_pLeftNode())
             {
-                Node* newNode= new Node(nVal);
-                current->set_m_pLeftNode(newNode);
-                cout << "small node created"<<endl;
+                Node newNode(nVal);
+                newNode=(*current);
+                cout << "small node created"<< endl;
                 return;
             }
             else
@@ -44,10 +44,10 @@ void create(Node* current, int nVal)
         {
             if(!current->get_m_pRightNode())
             {
-                Node* newNode= new Node(nVal);
-                current->set_m_pRightNode(newNode);
+                Node newNode(nVal);
+                newNode=(*current);
                 cout << "large node created"<<endl;
-                return;
+                return ;
             }
             else
             {
@@ -71,16 +71,16 @@ void create(Node* current, int nVal)
 int main()
 {
 
-    vector<Node> BST;
+//    vector<Node> BST;
 
     display_node_count();
-    BST.push_back(10);
+//    BST.push_back(10);
 //    Node rootNode(10);
 
-    display_node_count();
-    BST.push_back(290);
+//    display_node_count();
+//    BST.push_back(290);
 
-    display_node_count();
+//    display_node_count();
 
 //        Node second(5);
     create(rootNode,5);

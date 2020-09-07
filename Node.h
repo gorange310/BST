@@ -20,7 +20,7 @@ public:
     Node(int nVal, Node* nodeLVal=nullptr, Node* nodeRVal=nullptr);
 //    Node(const Node&, int);
     Node(const Node&);
-    Node(Node&&) noexcept;
+//    Node(Node&&) noexcept;
     ~Node();
 
     //functions
