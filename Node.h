@@ -1,7 +1,6 @@
 #ifndef NODE_H
 #define NODE_H
 
-
 class Node
 {
 private:
@@ -17,21 +16,23 @@ private:
 public:
 
 
-    Node(int nVal, Node* nodeLVal=nullptr, Node* nodeRVal=nullptr);
-//    Node(const Node&, int);
+    Node(int, Node*, Node*);
     Node(const Node&);
-//    Node(Node&&) noexcept;
     ~Node();
 
-    //functions
-    int get_m_nVal(){ return m_nVal;}
-    Node* get_m_pLeftNode(){ return m_pLeftNode;}
-    Node* get_m_pRightNode(){ return m_pRightNode;}
-    static int get_m_nCount();
+    //getter
+    int get_m_nVal()const{ return m_nVal;};
+    const Node* get_m_pLeftNode()const{ return m_pLeftNode;};
+    const Node* get_m_pRightNode()const{ return m_pRightNode;};
 
+    //setter
+    void set_m_nVal(int nVal){ m_nVal =nVal; };
+    void set_m_pLeftNode(Node* left){m_pLeftNode = left;};
+    void set_m_pRightNode(Node* right){m_pRightNode = right;};
 
-    void set_m_pLeftNode(Node* left){ m_pLeftNode = left;}
-    void set_m_pRightNode(Node* right){ m_pRightNode = right;}
+    //function
+    void increment_m_nCount(){++m_nCount;};
+    void display()const;
 
 };
 
